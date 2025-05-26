@@ -1,128 +1,83 @@
-# Sistema de Gestión de Nóminas 📊
+# Especificación de Requisitos de Software (SRS)
 
-## Índice
-1. [Introducción](#introducción)
-   - [Propósito](#propósito)
-   - [Alcance](#alcance)
-2. [Descripción General](#descripción-general)
-   - [Perspectiva del Producto](#perspectiva-del-producto)
-   - [Suposiciones y Dependencias](#suposiciones-y-dependencias)
-3. [Requisitos Funcionales](#requisitos-funcionales)
-   - [Gestión de Empleados](#gestión-de-empleados)
-   - [Cálculo de Pago](#cálculo-de-pago)
-   - [Generación de Reportes](#generación-de-reportes)
-4. [Requisitos No Funcionales](#requisitos-no-funcionales)
-   - [Usabilidad](#usabilidad)
-   - [Escalabilidad](#escalabilidad)
-   - [Mantenibilidad](#mantenibilidad)
-   - [Rendimiento](#rendimiento)
+## 1. Introducción
 
-## Introducción
+### 1.1 Propósito
 
-### Propósito
-El propósito de este sistema es proporcionar una aplicación web robusta para la gestión de pagos de empleados. La aplicación permite calcular los pagos semanales, gestionar datos de empleados y generar reportes detallados.
+El propósito de este documento es definir los requisitos funcionales y no funcionales para una **aplicación web de gestión de pagos de empleados**. La aplicación permitirá a una compañía calcular los pagos semanales de sus empleados, capturar y almacenar datos de los empleados, y generar reportes.
 
-### Alcance
-El sistema se centra en el cálculo de pagos semanales para diferentes categorías de empleados:
-- Asalariados
-- Por horas
-- Por comisión
-- Asalariados por comisión
+### 1.2 Alcance
 
-## Descripción General
+Este sistema se enfocará en el **cálculo de pagos semanales** para diferentes tipos de empleados: asalariados, por horas, por comisión y asalariados por comisión. La aplicación también incluirá la captura de datos de los empleados, el cálculo de pago automático y la generación de reportes.
 
-### Perspectiva del Producto
-Esta aplicación web está diseñada para ser utilizada por el departamento de recursos humanos, ofreciendo:
-- Interfaz intuitiva para gestión de datos
-- Cálculos automáticos de pagos
-- Generación de reportes detallados
+---
 
-### Suposiciones y Dependencias
-- Desarrollo en .NET 8 y C#
-- Almacenamiento de datos en memoria
+## 2. Descripción General
 
-## Requisitos Funcionales
+### 2.1 Perspectiva del Producto
 
-### Gestión de Empleados
-**RF-1:** Captura de datos según tipo de empleado:
+La aplicación web será utilizada por el departamento de recursos humanos para calcular y gestionar los pagos semanales de los empleados. Proporcionará una interfaz intuitiva para capturar datos, calcular pagos basados en el tipo de contrato del empleado y generar reportes detallados.
 
-1. **Empleado Asalariado:**
-   - Primer nombre
-   - Apellido paterno
-   - Número seguro social
-   - Salario semanal
+### 2.2 Suposiciones y Dependencias
 
-2. **Empleado por Horas:**
-   - Apellido paterno
-   - Número seguro social
-   - Sueldo por hora
-   - Horas trabajadas
+- La aplicación será desarrollada usando **.NET 8 y C#**.
+- Los datos de los empleados se almacenarán en una **colección en memoria**.
 
-3. **Empleado por Comisión:**
-   - Primer nombre
-   - Apellido paterno
-   - Número seguro social
-   - Ventas brutas
-   - Tarifa comisión
+---
 
-4. **Empleado Asalariado por Comisión:**
-   - Primer nombre
-   - Apellido paterno
-   - Número seguro social
-   - Ventas brutas
-   - Tarifa comisión
-   - Salario base
+## 3. Requisitos Funcionales
 
-### Cálculo de Pago
-**RF-2:** Cálculos automáticos según tipo de empleado:
+### 3.1 Gestión de Empleados
 
-1. **Empleado Asalariado:**
-   ```
-   Pago semanal = salarioSemanal
-   ```
+**RF-1:** El sistema debe permitir la captura de los datos de los empleados según su tipo:
 
-2. **Empleado por Horas:**
-   ```
-   Si horasTrabajadas ≤ 40:
-   Pago = sueldoPorHora × horasTrabajadas
+- **Empleado Asalariado:**
+  - Captura: `primerNombre`, `apellidoPaterno`, `numeroSeguroSocial`, `salarioSemanal`
+- **Empleado por Horas:**
+  - Captura: `apellidoPaterno`, `numeroSeguroSocial`, `sueldoPorHora`, `horasTrabajadas`
+- **Empleado por Comisión:**
+  - Captura: `primerNombre`, `apellidoPaterno`, `numeroSeguroSocial`, `ventasBrutas`, `tarifaComision`
+- **Empleado Asalariado por Comisión:**
+  - Captura: `primerNombre`, `apellidoPaterno`, `numeroSeguroSocial`, `ventasBrutas`, `tarifaComision`, `salarioBase`
 
-   Si horasTrabajadas > 40:
-   Pago = (sueldoPorHora × 40) + (sueldoPorHora × 1.5 × (horasTrabajadas - 40))
-   ```
+### 3.2 Cálculo de Pago
 
-3. **Empleado por Comisión:**
-   ```
-   Pago semanal = ventasBrutas × tarifaComision
-   ```
+**RF-2:** El sistema debe calcular automáticamente el pago semanal según el tipo de empleado:
 
-4. **Empleado Asalariado por Comisión:**
-   ```
-   Pago semanal = (ventasBrutas × tarifaComision) + salarioBase + (salarioBase × 0.10)
-   ```
+- **Empleado Asalariado:**  
+  `Pago semanal = salarioSemanal`
+- **Empleado por Horas:**
+  - Si `horasTrabajadas ≤ 40`, entonces el pago = `sueldoPorHora × horasTrabajadas`
+  - Si `horasTrabajadas > 40`, entonces el pago = `(sueldoPorHora × 40) + (sueldoPorHora × 1.5 × (horasTrabajadas - 40))`
+- **Empleado por Comisión:**  
+  `Pago semanal = ventasBrutas × tarifaComision`
+- **Empleado Asalariado por Comisión:**  
+  `Pago semanal = (ventasBrutas × tarifaComision) + salarioBase + (salarioBase × 0.10)`
 
-**RF-3:** Actualización de información y recálculo de pagos.
+**RF-3:** El sistema debe permitir actualizar la información de los empleados para recalcular el pago si es necesario.
 
-### Generación de Reportes
-**RF-4:** Generación de reportes semanales detallados por empleado.
+### 3.3 Generación de Reportes
 
-## Requisitos No Funcionales
+**RF-4:** El sistema debe generar un **reporte semanal** con el pago de cada empleado, detallando los cálculos según el tipo de contrato.
 
-### Usabilidad
-**RNF-1:** Interfaz intuitiva y accesible para usuarios no técnicos.
+---
 
-### Escalabilidad
-**RNF-2:** Arquitectura extensible que permite:
-- Incorporación de nuevos tipos de empleados
-- Adición de cálculos adicionales
-- Modificaciones sin afectar el código existente
+## 4. Requisitos No Funcionales
 
-### Mantenibilidad
-**RNF-3:** Diseño modular que facilita:
-- Adición de nuevas funcionalidades
-- Modificación de módulos existentes
-- Mantenimiento y adaptación a cambios
+### 4.1 Usabilidad
 
-### Rendimiento
-**RNF-4:** Procesamiento eficiente:
-- Capacidad para manejar hasta 1,000 empleados
-- Tiempo de procesamiento < 2 segundos
+**RNF-1:** La interfaz debe ser **intuitiva y fácil de navegar** para usuarios no técnicos.
+
+### 4.2 Escalabilidad
+
+**RNF-2:** La arquitectura del sistema debe ser **escalable**, permitiendo la inclusión de nuevos tipos de empleados y cálculos adicionales sin modificar el código existente.
+
+### 4.3 Mantenibilidad
+
+**RNF-3:** El sistema debe estar diseñado de manera **modular** para facilitar la adición o modificación de funcionalidades sin afectar otros módulos. Además, debe ser fácil de mantener y adaptable a cambios.
+
+### 4.4 Rendimiento
+
+**RNF-4:** El sistema debe procesar los cálculos de pago para **hasta 1,000 empleados en menos de 2 segundos**.
+
+---
