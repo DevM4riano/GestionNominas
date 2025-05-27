@@ -1,4 +1,5 @@
-﻿namespace sistema_gestion_nominas
+﻿
+namespace sistema_gestion_nominas
 {
     public class Program
     {
@@ -17,7 +18,7 @@
     | 1. Crear empleado                    | 
     | 2. Listar empleados                  |
     | 3. Editar empleado                   |
-    | 4. Salir                             |
+    | 4. Salir                             |/
     ========================================
                 
             Elija una opción: ");
