@@ -26,3 +26,4 @@ C:\Users\Maria\OneDrive\Escritorio\Programacion-02\gestion_nominas_proyecto\obj\
 C:\Users\Maria\OneDrive\Escritorio\Programacion-02\gestion_nominas_proyecto\obj\Debug\net9.0\gestion_nominas_proyecto.pdb
 C:\Users\Maria\OneDrive\Escritorio\Programacion-02\gestion_nominas_proyecto\obj\Debug\net9.0\gestion_nominas_proyecto.genruntimeconfig.cache
 C:\Users\Maria\OneDrive\Escritorio\Programacion-02\gestion_nominas_proyecto\obj\Debug\net9.0\ref\gestion_nominas_proyecto.dll
+C:\Users\Maria\OneDrive\Escritorio\Programacion-02\gestion_nominas_proyecto\obj\Debug\net9.0\gestion_nominas_proyecto.sourcelink.json

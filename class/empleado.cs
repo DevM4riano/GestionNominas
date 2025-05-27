@@ -1,11 +1,10 @@
-﻿
-namespace sistema_gestion_nominas
+﻿namespace sistema_gestion_nominas
 {
     public abstract class Empleado
     {
-        protected string numero_seguro_social {get; set;}
-        protected string primer_nombre {get; set;}
-        protected string apellido_paterno {get; set;}
+        public string numero_seguro_social { get; set; }
+        public string primer_nombre { get; set; }
+        public string apellido_paterno { get; set; }
 
         
         // constructor 
@@ -23,7 +22,7 @@ namespace sistema_gestion_nominas
             return
             $@" primer nombre: {primer_nombre}
                 apellido paterno: {apellido_paterno}
-                pago semanal: {calcularPagoPorSemana()}
+                pago semanal: {calcularPagoPorSemana():F2}
             ";
         }
     }

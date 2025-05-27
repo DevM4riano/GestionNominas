@@ -10,312 +10,350 @@
             while (continuar)
             {
                 Console.Clear();
-                MostrarMenu();
-                string opcion = Console.ReadLine();
+                Console.WriteLine(@$"
+    ========================================
+    == Sistema de Gestión de Nóminas ==
+    ========================================
+    | 1. Crear empleado                    | 
+    | 2. Listar empleados                  |
+    | 3. Editar empleado                   |
+    | 4. Salir                             |
+    ========================================
+                
+            Elija una opción: ");
+
+                string? opcion = Console.ReadLine();
 
                 switch (opcion)
                 {
                     case "1":
-                        Console.Clear();
-                        CrearEmpleadoAsalariado();
+                        CrearEmpleado();
                         break;
                     case "2":
-                        Console.Clear();
-                        CrearEmpleadoPorHoras();
-                        break;
-                    case "3":
-                        Console.Clear();
-                        CrearEmpleadoPorComision();
-                        break;
-                    case "4":
-                        Console.Clear();
-                        CrearEmpleadoAsalariadoPorComision();
-                        break;
-                    case "5":
-                        Console.Clear();
                         ListarEmpleados();
                         break;
-                    case "6":
-                        Console.Clear();
+                    case "3":
                         EditarEmpleado();
                         break;
-                    case "7":
-                        Console.Clear();
+                    case "4":
                         continuar = false;
                         break;
                     default:
-                        Console.Clear();
-                        Console.WriteLine("Opción no válida. Por favor, intente de nuevo.");
+                        Console.WriteLine("Opción no válida");
+                        Console.ReadKey();
                         break;
                 }
             }
         }
 
-        static void MostrarMenu()
+        static void CrearEmpleado()
         {
-          Console.Write(@$"
-          ===========================================
-               Sistema de Gestión de Nóminas 
-          ===========================================
+            Console.Clear();
+            Console.WriteLine(@$"
+    ========================================
+            === Crear Empleado ===
+    ========================================
+    | 1. Empleado Asalariado               |
+    | 2. Empleado por Horas                |
+    | 3. Empleado por Comisión             |
+    | 4. Empleado Asalariado por Comisión  |
+    ========================================
+    
+        Seleccione tipo de empleado: ");
+             
 
-                1. Crear Empleado Asalariado
-                2. Crear Empleado por Horas
-                3. Crear Empleado por Comisión
-                4. Crear Empleado Asalariado por Comisión
-                5. Listar Empleados
-                6. Editar Empleado
-                7. Salir
+            string? tipo = Console.ReadLine();
 
-          ===========================================
-                   Seleccione una opción:            
-          ");
-        } 
+            // Validar datos básicos
+            Console.Write("NSS: ");
+            string nss = Console.ReadLine() ?? "";
+            if (string.IsNullOrWhiteSpace(nss))
+            {
+                Console.WriteLine("El NSS no puede estar vacío.");
+                Console.ReadKey();
+                return;
+            }
 
-        static void CrearEmpleadoAsalariado()
-        {
-            Console.WriteLine("\n=== Crear Empleado Asalariado ===");
-            Console.Write("Número de Seguro Social: ");
-            string nss = Console.ReadLine();
-            Console.Write("Primer Nombre: ");
-            string nombre = Console.ReadLine();
-            Console.Write("Apellido Paterno: ");
-            string apellido = Console.ReadLine();
-            Console.Write("Salario Semanal: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal salario))
+            Console.Write("Nombre: ");
+            string nombre = Console.ReadLine() ?? "";
+            if (string.IsNullOrWhiteSpace(nombre))
             {
-                var empleado = new Empleado_asalariado(nss, nombre, apellido, salario);
-                empleados.Add(empleado);
-                Console.WriteLine("Empleado asalariado creado exitosamente.");
+                Console.WriteLine("El nombre no puede estar vacío.");
+                Console.ReadKey();
+                return;
             }
-            else
-            {
-                Console.WriteLine("Error: El salario debe ser un número válido.");
-            }
-        }
 
-        static void CrearEmpleadoPorHoras()
-        {
-            Console.WriteLine("\n=== Crear Empleado por Horas ===");
-            Console.Write("Número de Seguro Social: ");
-            string nss = Console.ReadLine();
-            Console.Write("Primer Nombre: ");
-            string nombre = Console.ReadLine();
-            Console.Write("Apellido Paterno: ");
-            string apellido = Console.ReadLine();
-            Console.Write("Sueldo por Hora: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal sueldoPorHora))
+            Console.Write("Apellido: ");
+            string apellido = Console.ReadLine() ?? "";
+            if (string.IsNullOrWhiteSpace(apellido))
             {
-                Console.Write("Horas Trabajadas: ");
-                if (decimal.TryParse(Console.ReadLine(), out decimal horasTrabajadas))
-                {
-                    var empleado = new EmpleadoPorHoras(nss, nombre, apellido, sueldoPorHora, horasTrabajadas);
-                    empleados.Add(empleado);
-                    Console.WriteLine("Empleado por horas creado exitosamente.");
-                }
-                else
-                {
-                    Console.WriteLine("Error: Las horas trabajadas deben ser un número válido.");
-                }
+                Console.WriteLine("El apellido no puede estar vacío.");
+                Console.ReadKey();
+                return;
             }
-            else
-            {
-                Console.WriteLine("Error: El sueldo por hora debe ser un número válido.");
-            }
-        }
 
-        static void CrearEmpleadoPorComision()
-        {
-            Console.WriteLine("\n=== Crear Empleado por Comisión ===");
-            Console.Write("Número de Seguro Social: ");
-            string nss = Console.ReadLine();
-            Console.Write("Primer Nombre: ");
-            string nombre = Console.ReadLine();
-            Console.Write("Apellido Paterno: ");
-            string apellido = Console.ReadLine();
-            Console.Write("Ventas Frutas: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal ventasFrutas))
+            switch (tipo)
             {
-                Console.Write("Tarifa Comisión: ");
-                if (decimal.TryParse(Console.ReadLine(), out decimal tarifaComision))
-                {
-                    var empleado = new EmpleadoPorComision(nss, nombre, apellido, ventasFrutas, tarifaComision);
-                    empleados.Add(empleado);
-                    Console.WriteLine("Empleado por comisión creado exitosamente.");
-                }
-                else
-                {
-                    Console.WriteLine("Error: La tarifa de comisión debe ser un número válido.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Error: Las ventas deben ser un número válido.");
-            }
-        }
-
-        static void CrearEmpleadoAsalariadoPorComision()
-        {
-            Console.WriteLine("\n=== Crear Empleado Asalariado por Comisión ===");
-            Console.Write("Número de Seguro Social: ");
-            string nss = Console.ReadLine();
-            Console.Write("Primer Nombre: ");
-            string nombre = Console.ReadLine();
-            Console.Write("Apellido Paterno: ");
-            string apellido = Console.ReadLine();
-            Console.Write("Ventas Frutas: ");
-            if (decimal.TryParse(Console.ReadLine(), out decimal ventasFrutas))
-            {
-                Console.Write("Tarifa Comisión: ");
-                if (decimal.TryParse(Console.ReadLine(), out decimal tarifaComision))
-                {
-                    Console.Write("Salario Base: ");
-                    if (decimal.TryParse(Console.ReadLine(), out decimal salarioBase))
+                case "1":
+                    Console.Write("Salario semanal: ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal salario))
                     {
-                        var empleado = new EmpleadoAsalariadoPorComision(nss, nombre, apellido, ventasFrutas, tarifaComision, salarioBase);
-                        empleados.Add(empleado);
-                        Console.WriteLine("Empleado asalariado por comisión creado exitosamente.");
+                        empleados.Add(new Empleado_asalariado(nss, nombre, apellido, salario));
+                        Console.WriteLine("Empleado asalariado creado con éxito.");
                     }
                     else
                     {
-                        Console.WriteLine("Error: El salario base debe ser un número válido.");
+                        Console.WriteLine("Salario inválido.");
                     }
-                }
-                else
-                {
-                    Console.WriteLine("Error: La tarifa de comisión debe ser un número válido.");
-                }
+                    break;
+
+                case "2":
+                    Console.Write("Sueldo por hora: ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal sueldoHora))
+                    {
+                        Console.Write("Horas trabajadas: ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal horas))
+                        {
+                            empleados.Add(new EmpleadoPorHoras(nss, nombre, apellido, sueldoHora, horas));
+                            Console.WriteLine("Empleado por horas creado con éxito.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Horas inválidas.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sueldo inválido.");
+                    }
+                    break;
+
+                case "3":
+                    Console.Write("Ventas: ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal ventas))
+                    {
+                        Console.Write("Tarifa comisión (ejemplo: 0.10 para 10%): ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal tarifa))
+                        {
+                            empleados.Add(new EmpleadoPorComision(nss, nombre, apellido, ventas, tarifa));
+                            Console.WriteLine("Empleado por comisión creado con éxito.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarifa inválida.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ventas inválidas.");
+                    }
+                    break;
+
+                case "4":
+                    Console.Write("Ventas: ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal ventasAC))
+                    {
+                        Console.Write("Tarifa comisión (ejemplo: 0.10 para 10%): ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal tarifaAC))
+                        {
+                            Console.Write("Salario base: ");
+                            if (decimal.TryParse(Console.ReadLine(), out decimal salarioBase))
+                            {
+                                empleados.Add(new EmpleadoAsalariadoPorComision(nss, nombre, apellido, ventasAC, tarifaAC, salarioBase));
+                                Console.WriteLine("Empleado asalariado por comisión creado con éxito.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Salario base inválido.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarifa inválida.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ventas inválidas.");
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Tipo de empleado inválido.");
+                    break;
             }
-            else
-            {
-                Console.WriteLine("Error: Las ventas deben ser un número válido.");
-            }
+
+            Console.WriteLine("\nPresione una tecla para continuar...");
+            Console.ReadKey();
         }
 
         static void ListarEmpleados()
         {
-            Console.WriteLine("\n=== Lista de Empleados ===");
+            Console.Clear();
+            Console.WriteLine("=== Lista de Empleados ===\n");
+            
             if (empleados.Count == 0)
             {
                 Console.WriteLine("No hay empleados registrados.");
-                return;
             }
-
-            for (int i = 0; i < empleados.Count; i++)
+            else
             {
-                Console.WriteLine(
-                $@"\nEmpleado #{i + 1}:
-                {empleados[i].ToString()}
-                ----------------------------------------");
+                for (int i = 0; i < empleados.Count; i++)
+                {
+                    var emp = empleados[i];
+                    Console.WriteLine($"Empleado #{i + 1}");
+                    Console.WriteLine($"NSS: {emp.numero_seguro_social}");
+                    Console.WriteLine($"Nombre: {emp.primer_nombre} {emp.apellido_paterno}");
+                    
+                    if (emp is Empleado_asalariado asalariado)
+                    {
+                        Console.WriteLine("Tipo: Asalariado");
+                        Console.WriteLine($"Salario semanal: ${asalariado.salario_semanal}");
+                    }
+                    else if (emp is EmpleadoPorHoras porHoras)
+                    {
+                        Console.WriteLine("Tipo: Por Horas");
+                        Console.WriteLine($"Sueldo por hora: ${porHoras.sueldoPorHora}");
+                        Console.WriteLine($"Horas trabajadas: {porHoras.horasTrabajadas}");
+                    }
+                    else if (emp is EmpleadoPorComision porComision)
+                    {
+                        Console.WriteLine("Tipo: Por Comisión");
+                        Console.WriteLine($"Ventas: ${porComision.ventasFrutas}");
+                        Console.WriteLine($"Tarifa comisión: {porComision.tarifaComision:P0}");
+                    }
+                    else if (emp is EmpleadoAsalariadoPorComision asalariadoComision)
+                    {
+                        Console.WriteLine("Tipo: Asalariado por Comisión");
+                        Console.WriteLine($"Ventas: ${asalariadoComision.ventasFrutas}");
+                        Console.WriteLine($"Tarifa comisión: {asalariadoComision.tarifaComision:P0}");
+                        Console.WriteLine($"Salario base: ${asalariadoComision.salarioBase}");
+                    }
+                    Console.WriteLine($"Pago semanal calculado: ${emp.calcularPagoPorSemana():F2}");
+                    Console.WriteLine("------------------------\n");
+                }
             }
+            
+            Console.WriteLine("\nPresione una tecla para continuar...");
+            Console.ReadKey();
         }
 
         static void EditarEmpleado()
         {
+            Console.Clear();
             if (empleados.Count == 0)
             {
                 Console.WriteLine("No hay empleados registrados.");
+                Console.ReadKey();
                 return;
             }
 
-            ListarEmpleados();
-            Console.Write("\nIngrese el número de Seguro Social del empleado a editar: ");
-            string nss = Console.ReadLine();
-
-            Empleado empleado = empleados.FirstOrDefault(e => e.NSS == nss);
-            if (empleado == null)
+            Console.WriteLine("=== Editar Empleado ===\n");
+            for (int i = 0; i < empleados.Count; i++)
             {
-                Console.WriteLine("Empleado no encontrado.");
-                return;
+                Console.WriteLine($"{i + 1}. {empleados[i].primer_nombre} {empleados[i].apellido_paterno} (NSS: {empleados[i].numero_seguro_social})");
+            }
+            
+            Console.Write("\nSeleccione el número de empleado a editar: ");
+            if (int.TryParse(Console.ReadLine(), out int indice) && indice >= 1 && indice <= empleados.Count)
+            {
+                var emp = empleados[indice - 1];
+
+                if (emp is Empleado_asalariado asalariado)
+                {
+                    Console.Write($"Nuevo salario semanal (actual: ${asalariado.salario_semanal}): ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal salario))
+                    {
+                        asalariado.salario_semanal = salario;
+                        Console.WriteLine("Salario actualizado.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Salario inválido.");
+                    }
+                }
+                else if (emp is EmpleadoPorHoras porHoras)
+                {
+                    Console.Write($"Nuevo sueldo por hora (actual: ${porHoras.sueldoPorHora}): ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal sueldo))
+                    {
+                        porHoras.sueldoPorHora = sueldo;
+                        Console.Write($"Nuevas horas trabajadas (actual: {porHoras.horasTrabajadas}): ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal horas))
+                        {
+                            porHoras.horasTrabajadas = horas;
+                            Console.WriteLine("Datos actualizados.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Horas inválidas.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sueldo inválido.");
+                    }
+                }
+                else if (emp is EmpleadoPorComision porComision)
+                {
+                    Console.Write($"Nuevas ventas (actual: ${porComision.ventasFrutas}): ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal ventas))
+                    {
+                        porComision.ventasFrutas = ventas;
+                        Console.Write($"Nueva tarifa comisión (actual: {porComision.tarifaComision:P0}): ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal tarifa))
+                        {
+                            porComision.tarifaComision = tarifa;
+                            Console.WriteLine("Datos actualizados.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarifa inválida.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ventas inválidas.");
+                    }
+                }
+                else if (emp is EmpleadoAsalariadoPorComision asalariadoComision)
+                {
+                    Console.Write($"Nuevas ventas (actual: ${asalariadoComision.ventasFrutas}): ");
+                    if (decimal.TryParse(Console.ReadLine(), out decimal ventas))
+                    {
+                        asalariadoComision.ventasFrutas = ventas;
+                        Console.Write($"Nueva tarifa comisión (actual: {asalariadoComision.tarifaComision:P0}): ");
+                        if (decimal.TryParse(Console.ReadLine(), out decimal tarifa))
+                        {
+                            asalariadoComision.tarifaComision = tarifa;
+                            Console.Write($"Nuevo salario base (actual: ${asalariadoComision.salarioBase}): ");
+                            if (decimal.TryParse(Console.ReadLine(), out decimal salarioBase))
+                            {
+                                asalariadoComision.salarioBase = salarioBase;
+                                Console.WriteLine("Datos actualizados.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Salario base inválido.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Tarifa inválida.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ventas inválidas.");
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Selección no válida.");
             }
 
-            Console.WriteLine($"\nEditando empleado: {empleado.Nombre} {empleado.Apellido}");
-            Console.Write("Nuevo Primer Nombre (presione Enter para mantener actual): ");
-            string nuevoNombre = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(nuevoNombre)) nuevoNombre = empleado.Nombre;
-
-            Console.Write("Nuevo Apellido Paterno (presione Enter para mantener actual): ");
-            string nuevoApellido = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(nuevoApellido)) nuevoApellido = empleado.Apellido;
-
-            if (empleado is Empleado_asalariado asalariado)
-            {
-                Console.Write("Nuevo Salario Semanal (presione Enter para mantener actual): ");
-                string input = Console.ReadLine();
-                decimal nuevoSalario = asalariado.SalarioSemanal;
-                if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal salario))
-                {
-                    nuevoSalario = salario;
-                }
-                asalariado.ActualizarDatos(nuevoNombre, nuevoApellido, nuevoSalario);
-            }
-            else if (empleado is EmpleadoPorHoras porHoras)
-            {
-                Console.Write("Nuevo Sueldo por Hora (presione Enter para mantener actual): ");
-                string inputSueldo = Console.ReadLine();
-                decimal nuevoSueldoPorHora = porHoras.SueldoPorHora;
-                if (!string.IsNullOrWhiteSpace(inputSueldo) && decimal.TryParse(inputSueldo, out decimal sueldo))
-                {
-                    nuevoSueldoPorHora = sueldo;
-                }
-
-                Console.Write("Nuevas Horas Trabajadas (presione Enter para mantener actual): ");
-                string inputHoras = Console.ReadLine();
-                decimal nuevasHoras = porHoras.HorasTrabajadas;
-                if (!string.IsNullOrWhiteSpace(inputHoras) && decimal.TryParse(inputHoras, out decimal horas))
-                {
-                    nuevasHoras = horas;
-                }
-                porHoras.ActualizarDatos(nuevoNombre, nuevoApellido, nuevoSueldoPorHora, nuevasHoras);
-            }
-            else if (empleado is EmpleadoPorComision porComision)
-            {
-                Console.Write("Nuevas Ventas Frutas (presione Enter para mantener actual): ");
-                string inputVentas = Console.ReadLine();
-                decimal nuevasVentas = porComision.VentasFrutas;
-                if (!string.IsNullOrWhiteSpace(inputVentas) && decimal.TryParse(inputVentas, out decimal ventas))
-                {
-                    nuevasVentas = ventas;
-                }
-
-                Console.Write("Nueva Tarifa Comisión (presione Enter para mantener actual): ");
-                string inputTarifa = Console.ReadLine();
-                decimal nuevaTarifa = porComision.TarifaComision;
-                if (!string.IsNullOrWhiteSpace(inputTarifa) && decimal.TryParse(inputTarifa, out decimal tarifa))
-                {
-                    nuevaTarifa = tarifa;
-                }
-                porComision.ActualizarDatos(nuevoNombre, nuevoApellido, nuevasVentas, nuevaTarifa);
-            }
-            else if (empleado is EmpleadoAsalariadoPorComision asalariadoPorComision)
-            {
-                Console.Write("Nuevas Ventas Frutas (presione Enter para mantener actual): ");
-                string inputVentas = Console.ReadLine();
-                decimal nuevasVentas = asalariadoPorComision.VentasFrutas;
-                if (!string.IsNullOrWhiteSpace(inputVentas) && decimal.TryParse(inputVentas, out decimal ventas))
-                {
-                    nuevasVentas = ventas;
-                }
-
-                Console.Write("Nueva Tarifa Comisión (presione Enter para mantener actual): ");
-                string inputTarifa = Console.ReadLine();
-                decimal nuevaTarifa = asalariadoPorComision.TarifaComision;
-                if (!string.IsNullOrWhiteSpace(inputTarifa) && decimal.TryParse(inputTarifa, out decimal tarifa))
-                {
-                    nuevaTarifa = tarifa;
-                }
-
-                Console.Write("Nuevo Salario Base (presione Enter para mantener actual): ");
-                string inputSalario = Console.ReadLine();
-                decimal nuevoSalarioBase = asalariadoPorComision.SalarioBase;
-                if (!string.IsNullOrWhiteSpace(inputSalario) && decimal.TryParse(inputSalario, out decimal salario))
-                {
-                    nuevoSalarioBase = salario;
-                }
-                asalariadoPorComision.ActualizarDatos(nuevoNombre, nuevoApellido, nuevasVentas, nuevaTarifa, nuevoSalarioBase);
-            }
-
-            Console.WriteLine("Empleado actualizado exitosamente.");
-            Console.WriteLine("\nPresione cualquier tecla para continuar...");
+            Console.WriteLine("\nPresione una tecla para continuar...");
             Console.ReadKey();
         }
     }
